@@ -7,7 +7,7 @@ class Player:
         # Initialize player attributes
         self.health = health
         self.position = position
-        self.image = pygame.image.load("player.png")
+        self.image = pygame.image.load("images/player.png")
         self.image = pygame.transform.scale(self.image, (25, 25))
         self.mask = pygame.mask.from_surface(self.image)
 

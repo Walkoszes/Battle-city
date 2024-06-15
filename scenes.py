@@ -22,10 +22,10 @@ class MainMenu(Scene):
     def __init__(self, game):
         # Initialize the MainMenu scene
         super().__init__(game)
-        self.background = pygame.image.load("main_bg.jpg")
-        self.document = pygame.image.load("document.png")
-        self.play_button = pygame.image.load("play_btn.png")
-        self.quit_button = pygame.image.load("quit_btn.png")
+        self.background = pygame.image.load("images/main_bg.jpg")
+        self.document = pygame.image.load("images/document.png")
+        self.play_button = pygame.image.load("images/play_btn.png")
+        self.quit_button = pygame.image.load("images/quit_btn.png")
         self.play_button_rect = self.play_button.get_rect()
         self.quit_button_rect = self.quit_button.get_rect()
         self.document_rect = self.document.get_rect()
@@ -35,7 +35,7 @@ class MainMenu(Scene):
         self.document_rect.topright = (800, 40)  # Position in the top right corner
 
         # Load sound effects
-        self.bg_sound = pygame.mixer.Sound("bg_sound_play.wav")
+        self.bg_sound = pygame.mixer.Sound("sounds/bg_sound_play.wav")
 
     def update(self):
         # Update method for MainMenu scene handling events
@@ -47,7 +47,9 @@ class MainMenu(Scene):
                     self.game.end()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.play_button_rect.collidepoint(event.pos):  # event.pos - position of the mouse cursor during event
+                    self.bg_sound.set_volume(0)
                     self.game.change_scene(Playing(self.game))
+                    self.game.start_coin_generation()
                     self.bg_sound.set_volume(0)
                 elif self.quit_button_rect.collidepoint(event.pos):
                     self.game.end()
@@ -55,7 +57,7 @@ class MainMenu(Scene):
                     self.game.change_scene(Instruction(self.game))
         # Draw the MainMenu scene
         self.draw()
-        self.bg_sound.play()
+        self.bg_sound.play(loops=-1)
 
     def draw(self):
         # Draw method to render MainMenu scene elements
@@ -68,8 +70,8 @@ class MainMenu(Scene):
 class Instruction(Scene):
     def __init__(self, game):
         super().__init__(game)
-        self.background = pygame.image.load("document_bg.jpg")
-        self.document = pygame.image.load("document.png")
+        self.background = pygame.image.load("images/document_bg.jpg")
+        self.document = pygame.image.load("images/document.png")
         self.document_rect = self.document.get_rect()
         self.document = pygame.transform.scale(self.document, (50, 50))
         self.document_rect.topright = (800, 40)
@@ -145,6 +147,7 @@ class Playing(Scene):
                 self.game.end()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
+                    self.game.stop_coin_generation()
                     self.game.change_scene(GameOver(self.game))
                 if event.key == pygame.K_SPACE:
                     self.game.player.shoot(self.game)
@@ -188,13 +191,14 @@ class Playing(Scene):
     def check_player_health(self):
         # Check player health and change scene to GameOver if health drops to zero
         if self.game.player.health <= 0:
+            self.game.stop_coin_generation()
             self.game.change_scene(GameOver(self.game))
 
 class GameOver(Scene):
     def __init__(self, game):
         # Initialize the GameOver scene
         super().__init__(game)
-        self.background = pygame.image.load("over_bg.jpg")
+        self.background = pygame.image.load("images/over_bg.jpg")
 
         # Initialize Pygame font module
         self.font = pygame.font.Font(pygame.font.get_default_font(), 36) # Use default system font

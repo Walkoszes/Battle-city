@@ -5,7 +5,7 @@ class Coin:
     def __init__(self, position: Point):
         # Initialize a Coin object with a given position
         self.position = position
-        self.image = pygame.image.load('coin.png')
+        self.image = pygame.image.load('images/coin.png')
         self.image = pygame.transform.scale(self.image, (20, 20))
         self.mask = pygame.mask.from_surface(self.image) # Create a mask for collision detection
 

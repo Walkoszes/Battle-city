@@ -10,7 +10,7 @@ class Bullet:
         self.damage = damage
         self.position = position
         self.direction = direction
-        self.image = pygame.image.load('bullet.png')
+        self.image = pygame.image.load('images/bullet.png')
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.mask = pygame.mask.from_surface(self.image)
 

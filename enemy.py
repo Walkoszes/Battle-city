@@ -57,7 +57,7 @@ class Enemy(ABC):
 
 class BasicEnemy(Enemy):
     def __init__(self, health, position):
-        super().__init__(health, position, 'enemy_pc.png', 10)
+        super().__init__(health, position, 'images/enemy_pc.png', 10)
 
     def move(self, game):
         # Move method to move BasicEnemy towards the player
@@ -68,7 +68,7 @@ class BasicEnemy(Enemy):
 
 class AdvancedEnemy(Enemy):
     def __init__(self, health, position):
-        super().__init__(health, position, 'enemy_pc_adv.png', 50)
+        super().__init__(health, position, 'images/enemy_pc_adv.png', 50)
 
     def move(self, game):
         # Move method to move AdvancedEnemy towards the player

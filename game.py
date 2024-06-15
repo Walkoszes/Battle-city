@@ -14,10 +14,10 @@ class Game:
         pygame.display.set_caption("Battle City")
 
         # Load images and masks
-        self.background = pygame.image.load("background.png")
-        self.playground = pygame.image.load("playground.png")
-        self.borders_img = pygame.image.load("boarders.png")
-        self.player_img = pygame.image.load("player.png")
+        self.background = pygame.image.load("images/background.png")
+        self.playground = pygame.image.load("images/playground.png")
+        self.borders_img = pygame.image.load("images/boarders.png")
+        self.player_img = pygame.image.load("images/player.png")
         self.player_img = pygame.transform.scale(self.player_img, (25, 25))
         self.player_mask = pygame.mask.from_surface(self.player_img)
         self.borders_mask = pygame.mask.from_surface(self.borders_img)
@@ -31,7 +31,10 @@ class Game:
         self.removed_enemies = []  # List to track removed enemies and their respawn times
 
         # Load sound effects
-        self.collision_sound = pygame.mixer.Sound("collision_coin.wav")
+        self.collision_sound = pygame.mixer.Sound("sounds/collision_coin.wav")
+
+        # Flag to control coin generation
+        self.coins_enabled = False  # Coins generation disabled by default
 
     def start(self):
         while True:
@@ -40,7 +43,8 @@ class Game:
     def update(self):
         self.current_scene.update()
         self.update_bullets()
-        self.update_coins()
+        if self.coins_enabled:  # Only update coins if coins are enabled
+            self.update_coins()
         self.respawn_enemies()
 
     def update_coins(self):
@@ -146,3 +150,11 @@ class Game:
         # Check collision between coins and borders
         offset = (coin.position.getX(), coin.position.getY())
         return self.borders_mask.overlap(coin.mask, offset) is not None
+
+    def start_coin_generation(self):
+        # Enable coin generation
+        self.coins_enabled = True
+
+    def stop_coin_generation(self):
+        # Disable coin generation
+        self.coins_enabled = False
